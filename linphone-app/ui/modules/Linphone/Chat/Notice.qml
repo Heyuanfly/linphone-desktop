@@ -24,11 +24,11 @@ RowLayout{
 			//: 'You have left the group' : Little message to show on the event when the user leave the chat group.
 			return qsTr('conferenceCreatedTerminated');
 		}
-		if (status == LinphoneEnums.EventLogTypeConferenceCallStart) {
-			return 'EventLogTypeConferenceCallStart';
+		if (status == LinphoneEnums.EventLogTypeConferenceCallStarted) {
+			return 'EventLogTypeConferenceCallStarted';
 		}
-		if (status == LinphoneEnums.EventLogTypeConferenceCallEnd) {
-			return 'EventLogTypeConferenceCallEnd';
+		if (status == LinphoneEnums.EventLogTypeConferenceCallEnded) {
+			return 'EventLogTypeConferenceCallEnded';
 		}
 		if (status == LinphoneEnums.EventLogTypeConferenceChatMessage) {
 			return 'EventLogTypeConferenceChatMessage';
