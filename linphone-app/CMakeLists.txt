@@ -96,11 +96,11 @@ if( WIN32)
 endif()
 set(CMAKE_INCLUDE_CURRENT_DIR ON)#useful for config.h
 
-set(QT5_PACKAGES Core Gui Quick Widgets QuickControls2 Svg LinguistTools Concurrent Network Test WebView)
+set(QT5_PACKAGES Core Gui Quick Widgets QuickControls2 Svg LinguistTools Concurrent Network Test WebView Qml)
 if (UNIX AND NOT APPLE)
 	list(APPEND QT5_PACKAGES DBus)
 endif ()
-set(QT5_PACKAGES_OPTIONAL TextToSpeech)
+set(QT5_PACKAGES_OPTIONAL TextToSpeech QmlModels)
 set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5 COMPONENTS ${QT5_PACKAGES} REQUIRED)
@@ -141,6 +141,10 @@ set(SOURCES
 	src/components/conference/ConferenceAddModel.cpp
 	src/components/conference/ConferenceHelperModel.cpp
 	src/components/conference/ConferenceModel.cpp
+	src/components/conference/ConferenceProxyModel.cpp
+	src/components/conferenceInfo/ConferenceInfoModel.cpp
+	src/components/conferenceInfo/ConferenceInfoListModel.cpp
+	src/components/conferenceInfo/ConferenceInfoProxyModel.cpp
 	src/components/contact/ContactModel.cpp
 	src/components/contact/VcardModel.cpp
 	src/components/contacts/ContactsImporterModel.cpp
@@ -252,6 +256,10 @@ set(HEADERS
 	src/components/conference/ConferenceAddModel.hpp
 	src/components/conference/ConferenceHelperModel.hpp
 	src/components/conference/ConferenceModel.hpp
+	src/components/conference/ConferenceProxyModel.hpp
+	src/components/conferenceInfo/ConferenceInfoModel.hpp
+	src/components/conferenceInfo/ConferenceInfoListModel.hpp
+	src/components/conferenceInfo/ConferenceInfoProxyModel.hpp
 	src/components/contact/ContactModel.hpp
 	src/components/contact/VcardModel.hpp
 	src/components/contacts/ContactsImporterModel.hpp

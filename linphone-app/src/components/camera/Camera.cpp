@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2010-2020 Belledonne Communications SARL.
  *
  * This file is part of linphone-desktop
@@ -25,6 +25,7 @@
 
 #include "components/call/CallModel.hpp"
 #include "components/core/CoreManager.hpp"
+#include "components/participant/ParticipantDeviceModel.hpp"
 
 #include "Camera.hpp"
 
@@ -61,13 +62,24 @@ QQuickFramebufferObject::Renderer *Camera::createRenderer () const {
 		renderer=(QQuickFramebufferObject::Renderer *)CoreManager::getInstance()->getCore()->getNativePreviewWindowId();
 		return renderer;
 	}else{
-		auto call = mCallModel->getCall();
-		if(call){
-			call->setNativeVideoWindowId(NULL);// Reset
-			return (QQuickFramebufferObject::Renderer *) call->getNativeVideoWindowId();
-		}else{
-			CoreManager::getInstance()->getCore()->setNativeVideoWindowId(NULL);
-			return (QQuickFramebufferObject::Renderer *) CoreManager::getInstance()->getCore()->getNativeVideoWindowId();
+		if(mCallModel){
+			auto call = mCallModel->getCall();
+			if(call){
+				call->setNativeVideoWindowId(NULL);// Reset
+				return (QQuickFramebufferObject::Renderer *) call->getNativeVideoWindowId();
+			}else{
+				CoreManager::getInstance()->getCore()->setNativeVideoWindowId(NULL);
+				return (QQuickFramebufferObject::Renderer *) CoreManager::getInstance()->getCore()->getNativeVideoWindowId();
+			}
+		}else if( mParticipantDeviceModel){
+			auto participantDevice = mParticipantDeviceModel->getDevice();
+			if(participantDevice){
+				participantDevice->setNativeVideoWindowId(NULL);// Reset
+				return (QQuickFramebufferObject::Renderer *) participantDevice->getNativeVideoWindowId();
+			}else{
+				CoreManager::getInstance()->getCore()->setNativeVideoWindowId(NULL);
+				return (QQuickFramebufferObject::Renderer *) CoreManager::getInstance()->getCore()->getNativeVideoWindowId();
+			}
 		}
 	}
 }
@@ -76,6 +88,14 @@ QQuickFramebufferObject::Renderer *Camera::createRenderer () const {
 
 CallModel *Camera::getCallModel () const {
 	return mCallModel;
+}
+
+bool Camera::getIsPreview () const {
+	return mIsPreview;
+}
+
+ParticipantDeviceModel * Camera::getParticipantDeviceModel() const{
+	return mParticipantDeviceModel;
 }
 
 void Camera::setCallModel (CallModel *callModel) {
@@ -87,15 +107,19 @@ void Camera::setCallModel (CallModel *callModel) {
 	}
 }
 
-bool Camera::getIsPreview () const {
-	return mIsPreview;
-}
-
 void Camera::setIsPreview (bool status) {
 	if (mIsPreview != status) {
 		mIsPreview = status;
 		update();
 		
 		emit isPreviewChanged(status);
+	}
+}
+
+void Camera::setParticipantDeviceModel(ParticipantDeviceModel * participantDeviceModel){
+if (mParticipantDeviceModel != participantDeviceModel) {
+		mParticipantDeviceModel = participantDeviceModel;
+		update();
+		emit participantDeviceModelChanged(mParticipantDeviceModel);
 	}
 }
